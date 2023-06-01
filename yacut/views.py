@@ -14,7 +14,7 @@ def index_view():
         short_id = form.custom_id.data
         # Если в БД уже есть ссылка, которую ввёл пользователь,
         if URLMap.query.filter_by(short=short_id).first():
-             # вызвать функцию flash и передать соответствующее сообщение
+            # вызвать функцию flash и передать соответствующее сообщение
             flash(f'Имя {short_id} уже занято!')
             # и вернуть пользователя на главную страницу
             return render_template('yacut.html', form=form)

@@ -7,7 +7,7 @@ class UrlForm(FlaskForm):
     original_link = URLField(
         'Длинная ссылка',
         validators=[DataRequired(message='Поле обязательно'),
-                     URL(message='Ссылка неккоректна')]
+                    URL(message='Ссылка неккоректна')]
     )
     custom_id = URLField(
         'Ваш вариант короткой ссылки',

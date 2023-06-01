@@ -3,6 +3,7 @@ import string
 
 from .models import URLMap
 
+
 def get_unique_short_id():
     symbol = string.ascii_letters + string.digits
     short_link = ''.join(random.choice(symbol) for i in range(6))

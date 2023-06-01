@@ -29,11 +29,11 @@ def add_url():
         short_id = get_unique_short_id()
     url = URLMap(
         original=data.get('url'),
-        short=short_id    
+        short=short_id
     )
     db.session.add(url)
     db.session.commit()
-    return jsonify(url.to_dict()), 201 
+    return jsonify(url.to_dict()), 201
 
 
 @app.route('/api/id/<string:short_id>/', methods=['GET'])
