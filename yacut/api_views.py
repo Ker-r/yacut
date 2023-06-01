@@ -10,6 +10,7 @@ from .models import URLMap
 
 LIMIT = 16
 
+
 @app.route('/api/id/', methods=['POST'])
 def add_url():
     data = request.get_json()
