@@ -10,7 +10,9 @@ from .models import URLMap
 def index_view():
     form = UrlForm()
     # Если ошибок не возникло, то
-    if form.validate_on_submit():
+    if not form.validate_on_submit():
+        return render_template('yacut.html', form=form)
+    else:
         short_id = form.custom_id.data
         # Если в БД уже есть ссылка, которую ввёл пользователь,
         if URLMap.query.filter_by(short=short_id).first():
@@ -30,7 +32,6 @@ def index_view():
         # И зафиксировать изменения
         db.session.commit()
         return render_template('yacut.html', form=form, short=short_id), 200
-    return render_template('yacut.html', form=form)
 
 
 @app.route('/<string:short>')

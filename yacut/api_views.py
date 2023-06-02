@@ -1,4 +1,5 @@
 import re
+from http import HTTPStatus
 
 from flask import jsonify, request
 
@@ -6,7 +7,7 @@ from . import app, db
 from .error import InvalidAPIUsage
 from .get_short import get_unique_short_id
 from .models import URLMap
-
+from settings import REGEXP_SAMPLE
 
 LIMIT = 16
 
@@ -22,7 +23,7 @@ def add_url():
         raise InvalidAPIUsage('"url" является обязательным полем!')
     short_id = data.get('custom_id')
     if short_id:
-        if len(short_id) >= LIMIT or not re.match(r'^[A-Za-z0-9]*$', short_id):
+        if len(short_id) >= LIMIT or not re.match(REGEXP_SAMPLE, short_id):
             raise InvalidAPIUsage('Указано недопустимое имя для короткой ссылки')
         if URLMap.query.filter_by(short=short_id).first():
             raise InvalidAPIUsage(f'Имя "{short_id}" уже занято.')
@@ -34,12 +35,12 @@ def add_url():
     )
     db.session.add(url)
     db.session.commit()
-    return jsonify(url.to_dict()), 201
+    return jsonify(url.to_dict()), HTTPStatus.CREATED
 
 
 @app.route('/api/id/<string:short_id>/', methods=['GET'])
 def get_url(short_id):
     original_url = URLMap.query.filter_by(short=short_id).first()
     if original_url is None:
-        raise InvalidAPIUsage('Указанный id не найден', 404)
-    return jsonify({'url': original_url.original}), 200
+        raise InvalidAPIUsage('Указанный id не найден', HTTPStatus.NOT_FOUND)
+    return jsonify({'url': original_url.original}), HTTPStatus.OK
