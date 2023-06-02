@@ -7,4 +7,4 @@ class Config(object):
     SECRET_KEY = os.getenv('SECRET_KEY', default='mySecretKey')
 
 
-REGEXP_SAMPLE=r'^[A-Za-z0-9]*$'
+REGEXP_SAMPLE = r'^[A-Za-z0-9]*$'
